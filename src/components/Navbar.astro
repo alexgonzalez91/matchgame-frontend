@@ -1,62 +1,165 @@
 ---
-const currentPath = Astro.url.pathname;
+const pathname = Astro.url.pathname;
 
 const links = [
-  { href: "/", label: "Inicio" },
-  { href: "/catalogo", label: "Catálogo" },
-  { href: "/seleccion", label: "Selección MatchGame" },
-  { href: "/sobre-matchgame", label: "Sobre MatchGame" },
-  { href: "/contacto", label: "Contacto" },
+  {
+    href: "/",
+    label: "Inicio",
+  },
+  {
+    href: "/catalogo",
+    label: "Catálogo",
+  },
+  {
+    href: "/seleccion",
+    label: "Selección",
+  },
+  {
+    href: "/sobre-matchgame",
+    label: "Sobre MatchGame",
+  },
+  {
+    href: "/contacto",
+    label: "Contacto",
+  },
 ];
 
 function isActive(href: string) {
   if (href === "/") {
-    return currentPath === "/";
+    return pathname === "/";
   }
 
-  return currentPath.startsWith(href);
+  if (href === "/catalogo") {
+    return (
+      pathname.startsWith("/catalogo") ||
+      pathname.startsWith("/juegos/")
+    );
+  }
+
+  return pathname.startsWith(href);
 }
 ---
 
 <header class="navbar">
-  <div class="container navbar__content">
-    <a class="navbar__logo" href="/">
-      Match<span>Game</span>
+  <div class="container navbar__container">
+    <a class="navbar__brand" href="/">
+      MatchGame
     </a>
 
-    <nav class="navbar__nav" aria-label="Navegación principal">
-      <ul class="navbar__list">
-        {
-          links.map((link) => (
-            <li>
-              <a
-                class:list={[
-                  "navbar__link",
-                  { "navbar__link--active": isActive(link.href) },
-                ]}
-                href={link.href}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+    <button
+      class="navbar__toggle"
+      type="button"
+      aria-label="Abrir menú de navegación"
+      aria-expanded="false"
+      aria-controls="main-navigation"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav
+      id="main-navigation"
+      class="navbar__nav"
+      aria-label="Navegación principal"
+    >
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            "navbar__link",
+            {
+              "navbar__link--active":
+                isActive(link.href),
+            },
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
     </nav>
   </div>
 </header>
 
-<style>
-  .navbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid var(--color-border);
-    background-color: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(12px);
+<script>
+  const toggle =
+    document.querySelector(".navbar__toggle");
+
+  const navigation =
+    document.querySelector(".navbar__nav");
+
+  function cerrarMenu() {
+    if (!toggle || !navigation) return;
+
+    toggle.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+    navigation.removeAttribute(
+      "data-open"
+    );
   }
 
-  .navbar__content {
+  if (toggle && navigation) {
+    toggle.addEventListener(
+      "click",
+      () => {
+        const abierto =
+          toggle.getAttribute(
+            "aria-expanded"
+          ) === "true";
+
+        toggle.setAttribute(
+          "aria-expanded",
+          String(!abierto)
+        );
+
+        if (abierto) {
+          navigation.removeAttribute(
+            "data-open"
+          );
+        } else {
+          navigation.setAttribute(
+            "data-open",
+            ""
+          );
+        }
+      }
+    );
+
+    navigation
+      .querySelectorAll("a")
+      .forEach((link) => {
+        link.addEventListener(
+          "click",
+          cerrarMenu
+        );
+      });
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key === "Escape") {
+          cerrarMenu();
+        }
+      }
+    );
+  }
+</script>
+
+<style>
+  .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg, #0f172a);
+}
+
+  .navbar__container {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -64,38 +167,47 @@ function isActive(href: string) {
     gap: var(--space-3);
   }
 
-  .navbar__logo {
+  .navbar__brand {
     flex-shrink: 0;
+    color: var(--color-text-primary);
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
   }
 
-  .navbar__logo span {
-    color: var(--color-primary-light);
-  }
-
-  .navbar__list {
+  .navbar__nav {
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    list-style: none;
   }
 
   .navbar__link {
     position: relative;
-    display: inline-block;
-    padding-block: var(--space-1);
+    padding-block: 24px;
     color: var(--color-text-secondary);
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     transition:
-      color 0.2s ease,
-      transform 0.2s ease;
+      color 0.2s ease;
   }
 
   .navbar__link:hover {
     color: var(--color-text-primary);
+  }
+
+  .navbar__link::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 17px;
+    left: 0;
+    height: 2px;
+    border-radius: 999px;
+    background-color: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition:
+      transform 0.2s ease;
   }
 
   .navbar__link--active {
@@ -103,31 +215,108 @@ function isActive(href: string) {
   }
 
   .navbar__link--active::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    border-radius: 999px;
-    background-color: var(--color-primary);
+    transform: scaleX(1);
   }
 
-  @media (max-width: 900px) {
-    .navbar__content {
-      flex-direction: column;
-      align-items: flex-start;
-      padding-block: var(--space-2);
+  .navbar__toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+    background-color: var(--color-bg-secondary);
+    cursor: pointer;
+  }
+
+  .navbar__toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+    background-color: var(--color-text-primary);
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .navbar__toggle span + span {
+    margin-top: 5px;
+  }
+
+  .navbar__toggle[aria-expanded="true"]
+    span:nth-child(1) {
+    transform:
+      translateY(7px)
+      rotate(45deg);
+  }
+
+  .navbar__toggle[aria-expanded="true"]
+    span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .navbar__toggle[aria-expanded="true"]
+    span:nth-child(3) {
+    transform:
+      translateY(-7px)
+      rotate(-45deg);
+  }
+
+  @media (max-width: 768px) {
+  .navbar__container {
+    min-height: 72px;
+  }
+
+  .navbar__toggle {
+    display: block;
+  }
+
+  .navbar__nav {
+    display: none;
+    position: absolute;
+    top: calc(100% + 1px);
+    right: 0;
+    left: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: 0 0 var(--radius-card)
+      var(--radius-card);
+    background-color: var(--color-bg, #0f172a);
+  }
+
+    .navbar__nav[data-open] {
+      display: flex;
     }
 
-    .navbar__nav {
-      width: 100%;
-      overflow-x: auto;
+    .navbar__link {
+      padding: 14px 12px;
+      border-radius: var(--radius-small);
     }
 
-    .navbar__list {
-      width: max-content;
-      gap: var(--space-2);
+    .navbar__link:hover {
+      background-color: var(--color-card);
+    }
+
+    .navbar__link::after {
+      top: 50%;
+      right: auto;
+      bottom: auto;
+      left: 0;
+      width: 3px;
+      height: 24px;
+      transform:
+        translateY(-50%)
+        scaleY(0);
+    }
+
+    .navbar__link--active::after {
+      transform:
+        translateY(-50%)
+        scaleY(1);
     }
   }
 </style>
