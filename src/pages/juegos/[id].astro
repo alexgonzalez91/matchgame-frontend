@@ -182,8 +182,9 @@ const fechaFormateada = juego?.fecha_lanzamiento
 
 <style>
   .game-detail {
-    padding-block: var(--space-5);
-  }
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-4);
+}
 
   .back-link {
     display: inline-block;
@@ -199,7 +200,7 @@ const fechaFormateada = juego?.fecha_lanzamiento
     display: grid;
     grid-template-columns: minmax(250px, 360px) 1fr;
     gap: var(--space-5);
-    align-items: start;
+    align-items: center;
   }
 
   .game-detail__cover {
@@ -302,8 +303,8 @@ const fechaFormateada = juego?.fecha_lanzamiento
   }
 
   .editorial-review {
-    margin-top: var(--space-5);
-    padding: var(--space-4);
+    margin-top: var(--space-6);
+    padding: var(--space-3);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-card);
     background-color: var(--color-card);

@@ -1,7 +1,11 @@
 <footer class="footer">
   <div class="container footer__content">
-    <div>
-      <a class="footer__logo" href="/">
+
+    <div class="footer__brand">
+      <a
+        class="footer__logo"
+        href="/"
+      >
         Match<span>Game</span>
       </a>
 
@@ -10,40 +14,76 @@
       </p>
     </div>
 
-    <nav aria-label="Navegación del pie de página">
+    <nav
+      class="footer__nav"
+      aria-label="Navegación del pie de página"
+    >
       <ul class="footer__links">
-        <li><a href="/catalogo">Catálogo</a></li>
-        <li><a href="/seleccion">Selección MatchGame</a></li>
-        <li><a href="/sobre-matchgame">Sobre MatchGame</a></li>
-        <li><a href="/contacto">Contacto</a></li>
+        <li>
+          <a href="/">
+            Inicio
+          </a>
+        </li>
+
+        <li>
+          <a href="/catalogo">
+            Catálogo
+          </a>
+        </li>
+
+        <li>
+          <a href="/seleccion">
+            Selección MatchGame
+          </a>
+        </li>
+
+        <li>
+          <a href="/sobre-matchgame">
+            Sobre MatchGame
+          </a>
+        </li>
+
+        <li>
+          <a href="/contacto">
+            Contacto
+          </a>
+        </li>
       </ul>
     </nav>
-  </div>
 
-  <div class="container footer__bottom">
-    <p>
-      © {new Date().getFullYear()} MatchGame. Proyecto educativo.
-    </p>
+    <div class="footer__bottom">
+      <p>
+        © {new Date().getFullYear()} MatchGame. Proyecto educativo.
+      </p>
+    </div>
+
   </div>
 </footer>
 
 <style>
   .footer {
-    margin-top: var(--space-6);
+    margin-top: var(--space-4);
     border-top: 1px solid var(--color-border);
     background-color: var(--color-bg-secondary);
   }
 
   .footer__content {
     display: flex;
-    justify-content: space-between;
-    gap: var(--space-5);
-    padding-block: var(--space-5);
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding-block: var(--space-4);
+    text-align: center;
+  }
+
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
   }
 
   .footer__logo {
-    display: inline-block;
-    margin-bottom: var(--space-1);
     font-family: var(--font-heading);
     font-size: 1.4rem;
     font-weight: 700;
@@ -54,13 +94,18 @@
   }
 
   .footer__description {
-    max-width: 320px;
+    color: var(--color-text-secondary);
+  }
+
+  .footer__nav {
+    width: 100%;
   }
 
   .footer__links {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    gap: var(--space-1) var(--space-4);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) var(--space-4);
     list-style: none;
   }
 
@@ -70,26 +115,35 @@
   }
 
   .footer__links a:hover {
-    color: var(--color-text-primary);
+    color: var(--color-primary-light);
   }
 
   .footer__bottom {
-    padding-block: var(--space-2);
+    width: 100%;
+    padding-top: var(--space-3);
     border-top: 1px solid var(--color-border);
+    text-align: center;
   }
 
   .footer__bottom p {
+    color: var(--color-text-secondary);
     font-size: 0.875rem;
   }
 
   @media (max-width: 768px) {
     .footer__content {
-      flex-direction: column;
       gap: var(--space-3);
+      padding-block: var(--space-4);
     }
 
     .footer__links {
-      grid-template-columns: 1fr;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .footer__bottom {
+      padding-top: var(--space-2);
     }
   }
 </style>

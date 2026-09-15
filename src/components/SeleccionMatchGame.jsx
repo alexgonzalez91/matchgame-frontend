@@ -197,7 +197,7 @@ export default function SeleccionMatchGame() {
           display: flex;
           align-items: end;
           gap: var(--space-2);
-          margin-bottom: var(--space-4);
+          margin-bottom: var(--space-5);
         }
 
         .filter-control {
