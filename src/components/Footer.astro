@@ -1,6 +1,5 @@
 <footer class="footer">
   <div class="container footer__content">
-
     <div class="footer__brand">
       <a
         class="footer__logo"
@@ -14,49 +13,11 @@
       </p>
     </div>
 
-    <nav
-      class="footer__nav"
-      aria-label="Navegación del pie de página"
-    >
-      <ul class="footer__links">
-        <li>
-          <a href="/">
-            Inicio
-          </a>
-        </li>
-
-        <li>
-          <a href="/catalogo">
-            Catálogo
-          </a>
-        </li>
-
-        <li>
-          <a href="/seleccion">
-            Selección MatchGame
-          </a>
-        </li>
-
-        <li>
-          <a href="/sobre-matchgame">
-            Sobre MatchGame
-          </a>
-        </li>
-
-        <li>
-          <a href="/contacto">
-            Contacto
-          </a>
-        </li>
-      </ul>
-    </nav>
-
     <div class="footer__bottom">
       <p>
         © {new Date().getFullYear()} MatchGame. Proyecto educativo.
       </p>
     </div>
-
   </div>
 </footer>
 
@@ -97,27 +58,6 @@
     color: var(--color-text-secondary);
   }
 
-  .footer__nav {
-    width: 100%;
-  }
-
-  .footer__links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-2) var(--space-4);
-    list-style: none;
-  }
-
-  .footer__links a {
-    color: var(--color-text-secondary);
-    transition: color 0.2s ease;
-  }
-
-  .footer__links a:hover {
-    color: var(--color-primary-light);
-  }
-
   .footer__bottom {
     width: 100%;
     padding-top: var(--space-3);
@@ -132,14 +72,7 @@
 
   @media (max-width: 768px) {
     .footer__content {
-      gap: var(--space-3);
       padding-block: var(--space-4);
-    }
-
-    .footer__links {
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-1);
     }
 
     .footer__bottom {
